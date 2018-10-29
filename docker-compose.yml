@@ -7,6 +7,6 @@ services:
   composer:
     restart: 'no'
     image: composer:latest
-    command: composer require guzzlehttp/guzzle:~6.0
+    command: composer update
     volumes:
     - ./:/app
