@@ -1,0 +1,12 @@
+version: '3'
+services:
+  php:
+    image: "php:latest"
+    volumes:
+    - ./:/var/www
+  composer:
+    restart: 'no'
+    image: composer:latest
+    command: composer require guzzlehttp/guzzle:~6.0
+    volumes:
+    - ./:/app
