@@ -1,3 +1,5 @@
 <?php
+require 'vendor/autoload.php';
 
-phpinfo();
+$reader = new \ImportToPocket\Reader();
+$reader->readFile();
