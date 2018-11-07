@@ -1,5 +1,8 @@
 <?php
 require 'vendor/autoload.php';
 
-$reader = new \ImportToPocket\Reader();
-$reader->readFile();
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+
+$readerResult = (new \ImportToPocket\Reader())->readFile();
+(new \ImportToPocket\Auth())->authenticate();
