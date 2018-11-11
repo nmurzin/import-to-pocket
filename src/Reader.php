@@ -12,7 +12,7 @@ class Reader
 
     public function readFile():array
     {
-        $opened = fopen('/var/www/'. $this->fileName, 'r');git
+        $opened = fopen('/var/www/'. $this->fileName, 'r');
         $result = [];
         while(!feof($opened))
         {
