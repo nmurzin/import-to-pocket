@@ -10,6 +10,7 @@ class Auth
     private $client;
     private $consumerKey;
     private $redirectUrl;
+    private $requestToken;
 
     public function __construct()
     {
@@ -20,12 +21,18 @@ class Auth
 
     public function authenticate(): string
     {
-        $requestToken = $this->obtainRequestToken();
-        if ($accessToken = $this->obtainAccessToken($requestToken)) {
+        if (!empty($this->requestToken) && $accessToken = $this->obtainAccessToken($this->requestToken)) {
             return $accessToken;
         }
 
-        throw new \Exception('You must authorize this app here:' . $this->buildAuthUrl($requestToken));
+        throw new \Exception('You must authorize this app here:' . $this->buildAuthUrl($this->requestToken));
+    }
+
+    public function authorize(): string
+    {
+        $this->requestToken = $this->obtainRequestToken();
+
+        return $this->buildAuthUrl($this->requestToken);
     }
 
     private function obtainRequestToken(): string
@@ -74,12 +81,16 @@ class Auth
 
             $responseEncoded = json_decode($response->getBody()->getContents());
 
-            if (!empty($responseEncoded->acess_token) && !empty($responseEncoded->username)) {
-                return $responseEncoded->acess_token;
+            if (empty($responseEncoded->access_token)) {
+                throw new \Exception('Access token not exist: ' . $response->getBody()->getContents());
             }
+
+            return $responseEncoded->access_token;
         } catch (\Exception $e) {
             echo 'Message: ' . $e->getMessage();
         }
+
+
     }
 
     private function buildAuthUrl(string $requestToken): string

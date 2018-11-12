@@ -4,7 +4,12 @@ namespace ImportToPocket;
 
 class Importer
 {
-    public function __construct(object $readerResult, string $accessToken)
+    private $readerResult;
+    private $accessToken;
+
+    public function __construct(array $readerResult, string $accessToken)
     {
+        $this->readerResult = $readerResult;
+        $this->accessToken = $accessToken;
     }
 }

@@ -5,5 +5,9 @@ $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
 $readerResult = (new \ImportToPocket\Reader())->readFile();
+$auth = new \ImportToPocket\Auth();
 
-new \ImportToPocket\Importer($readerResult, (new \ImportToPocket\Auth())->authenticate());
+if ((new \ImportToPocket\Console())->exec($auth->authorize())) {
+    new \ImportToPocket\Importer($readerResult, $auth->authenticate());
+}
+
