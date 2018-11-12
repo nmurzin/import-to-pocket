@@ -2,7 +2,8 @@
 
 namespace ImportToPocket;
 
-class Importer {
+class Importer
+{
     public function __construct(object $readerResult, string $accessToken)
     {
     }

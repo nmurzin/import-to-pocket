@@ -1,4 +1,5 @@
 <?php
+
 namespace ImportToPocket;
 
 class Reader
@@ -10,24 +11,24 @@ class Reader
         $this->fileName = $fileName;
     }
 
-    public function readFile():array
+    public function readFile(): array
     {
-        $opened = fopen('/var/www/'. $this->fileName, 'r');
+        $opened = fopen('/var/www/' . $this->fileName, 'r');
         $result = [];
-        while(!feof($opened))
-        {
-			$result = array_merge($result, $this->parseString(fgets($opened)));
+        while (!feof($opened)) {
+            $result = array_merge($result, $this->parseString(fgets($opened)));
         }
 
         fclose($opened);
 
-		return $result;
+        return $result;
     }
 
-	private function parseString(string $string): array {
-    	$string_exploded = explode('|', $string);
-    	if(!empty($string_exploded)){
-			return [trim($string_exploded[0]) => trim($string_exploded[1])];
-		}
-	}
+    private function parseString(string $string): array
+    {
+        $string_exploded = explode('|', $string);
+        if (!empty($string_exploded)) {
+            return [trim($string_exploded[0]) => trim($string_exploded[1])];
+        }
+    }
 }
