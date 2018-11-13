@@ -6,7 +6,7 @@ class Reader
 {
     private $fileName;
 
-    public function __construct($fileName = 'info.txt')
+    public function __construct($fileName)
     {
         $this->fileName = $fileName;
     }
