@@ -7,6 +7,8 @@ use GuzzleHttp\Psr7\Request;
 
 class Importer
 {
+    const REQUESTS_LIMIT = 320;
+
     private $client;
     private $readerResult;
     private $accessToken;
@@ -23,7 +25,11 @@ class Importer
     public function add()
     {
         if (!empty($this->readerResult)) {
+            $counter = 0;
             foreach ($this->readerResult as $url => $title) {
+                if (self::REQUESTS_LIMIT === $counter) {
+                    throw new \Exception('You have exceeded calls limit. Try to continue in an hour.');
+                }
                 $response = $this->client->send($this->prepareRequest($url, $title));
                 if (200 !== $response->getStatusCode()) {
                     throw new \Exception('Adding request failed: Status code: ' . $response->getStatusCode());
@@ -31,6 +37,7 @@ class Importer
 
                 $responseEncoded = json_decode($response->getBody()->getContents());
                 echo "Item: " . $responseEncoded->item->item_id . " " . $responseEncoded->item->title . " added!\n";
+                $counter++;
             }
         }
     }
