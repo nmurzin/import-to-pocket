@@ -1,19 +1,37 @@
 <?php
-
+/**
+ * Proceed import
+ */
 namespace ImportToPocket;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
+/**
+ * Class Importer
+ * @package ImportToPocket
+ */
 class Importer
 {
+    /** @var integer **/
     const REQUESTS_LIMIT = 320;
 
+    /** @var object **/
     private $client;
+    /** @var array **/
     private $readerResult;
+    /** @var string **/
     private $accessToken;
+    /** @var string **/
     private $consumerKey;
 
+    /**
+     * Importer constructor.
+     *
+     * @param array  $readerResult
+     * @param string $accessToken
+     * @param string $consumerKey
+     */
     public function __construct(array $readerResult, string $accessToken, string $consumerKey)
     {
         $this->readerResult = $readerResult;
@@ -22,6 +40,9 @@ class Importer
         $this->client = new Client();
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function add()
     {
         if (!empty($this->readerResult)) {
@@ -42,6 +63,12 @@ class Importer
         }
     }
 
+    /**
+     * @param string $url
+     * @param string $title
+     *
+     * @return object
+     */
     private function prepareRequest(string $url, string $title): object
     {
         $uri = 'https://getpocket.com/v3/add';
