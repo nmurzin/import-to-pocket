@@ -1,17 +1,30 @@
 <?php
-
+/**
+ * Proceed authentication
+ */
 namespace ImportToPocket;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
+/**
+ * Class Auth
+ * @package ImportToPocket
+ */
 class Auth
 {
+	/** @var object */
     private $client;
+    /** @var string  */
     private $consumerKey;
+    /** @var string  */
     private $redirectUrl;
+    /** @var string */
     private $requestToken;
 
+	/**
+	 * Auth constructor.
+	 */
     public function __construct()
     {
         $this->client = new Client();
@@ -19,6 +32,10 @@ class Auth
         $this->redirectUrl = 'http://0.0.0.0/serve-test.php'; //TODO need to add redirectUrl
     }
 
+	/**
+	 * @return string
+	 * @throws \Exception
+	 */
     public function authenticate(): string
     {
         if (!empty($this->requestToken) && $accessToken = $this->obtainAccessToken($this->requestToken)) {
@@ -28,6 +45,9 @@ class Auth
         throw new \Exception('You must authorize this app here:' . $this->buildAuthUrl($this->requestToken));
     }
 
+	/**
+	 * @return string
+	 */
     public function authorize(): string
     {
         $this->requestToken = $this->obtainRequestToken();
@@ -35,6 +55,10 @@ class Auth
         return $this->buildAuthUrl($this->requestToken);
     }
 
+	/**
+	 * @return string
+	 * @throws \GuzzleHttp\Exception\GuzzleException
+	 */
     private function obtainRequestToken(): string
     {
         try {
@@ -63,6 +87,12 @@ class Auth
         }
     }
 
+	/**
+	 * @param string $requestToken
+	 *
+	 * @return string
+	 * @throws \GuzzleHttp\Exception\GuzzleException
+	 */
     private function obtainAccessToken(string $requestToken): string
     {
         try {
@@ -93,6 +123,11 @@ class Auth
 
     }
 
+	/**
+	 * @param string $requestToken
+	 *
+	 * @return string
+	 */
     private function buildAuthUrl(string $requestToken): string
     {
         return 'https://getpocket.com/auth/authorize?request_token=' . $requestToken . '&redirect_uri=' . $this->redirectUrl;

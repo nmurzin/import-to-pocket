@@ -1,9 +1,20 @@
 <?php
-
+/**
+ * Provides console interface
+ */
 namespace ImportToPocket;
 
+/**
+ * Class Console
+ * @package ImportToPocket
+ */
 class Console
 {
+	/**
+	 * @param string $authUrl
+	 *
+	 * @return bool
+	 */
     public function exec(string $authUrl) : bool
     {
         try {

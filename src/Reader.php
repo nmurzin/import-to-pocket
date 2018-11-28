@@ -1,16 +1,31 @@
 <?php
-
+/**
+ * Read file
+ */
 namespace ImportToPocket;
 
+/**
+ * Class Reader
+ * @package ImportToPocket
+ */
 class Reader
 {
+	/** @var string **/
     private $fileName;
 
+	/**
+	 * Reader constructor.
+	 *
+	 * @param string $fileName
+	 */
     public function __construct($fileName)
     {
         $this->fileName = $fileName;
     }
 
+	/**
+	 * @return array
+	 */
     public function readFile(): array
     {
         $opened = fopen('/var/www/' . $this->fileName, 'r');
@@ -24,6 +39,11 @@ class Reader
         return $result;
     }
 
+	/**
+	 * @param string $string
+	 *
+	 * @return array
+	 */
     private function parseString(string $string): array
     {
         $string_exploded = explode('|', $string);
