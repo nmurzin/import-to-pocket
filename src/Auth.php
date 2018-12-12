@@ -29,7 +29,7 @@ class Auth
     {
         $this->client = new Client();
         $this->consumerKey = getenv('POCKET_CONSUMER_KEY');
-        $this->redirectUrl = 'http://0.0.0.0/serve-test.php'; //TODO need to add redirectUrl
+        $this->redirectUrl = 'http://0.0.0.0/serve.php';
     }
 
 	/**
